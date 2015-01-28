@@ -12,5 +12,5 @@ libraryDependencies ++= Seq(
   "org.scalacheck" %% "scalacheck" % "1.10.0" % "test" withSources() withJavadoc()
 )
 
-initialCommands := "import com.samstarling.finatraplayground._"
+initialCommands := "import com.samstarling._"
 
