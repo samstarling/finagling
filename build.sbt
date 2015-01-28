@@ -1,4 +1,4 @@
-name := "Finatra Playground"
+name := "Finagle Playground"
 
 organization := "com.samstarling"
 
