@@ -4,20 +4,24 @@ import com.twitter.util.Future
 
 object SequentialComposition extends App {
 
-  def fetchUrl(url: String): Future[String] = Future { "Hello" }
-  def findImageUrls(bytes: String): Seq[String] = List("A", "B", "C")
+  case class User(name: String)
 
-  val url = "http://www.google.com"
+  def authenticate(credentials: String) = Future { Some(User("sam")) }
 
-  val f: Future[String] = fetchUrl(url) flatMap { bytes =>
-    val images = findImageUrls(bytes)
-    if (images.isEmpty)
-      Future.exception(new Exception("no image"))
-    else
-      fetchUrl(images(0))
+  def getTweets(user: Option[User]) = Future { List("1", "2", "3") }
+
+  // Here, the intermediate user object can't be accessed
+  authenticate("foo").flatMap(getTweets) onSuccess { tweets =>
+    println(s"Your tweets are: $tweets")
   }
+  
+  // Here, we retain access to a val for each step
+  val future = for {
+    user <- authenticate("foo")
+    tweets <- getTweets(user)
+  } yield (user, tweets)
 
-  f onSuccess { res =>
-    println("Result: " + res)
+  future onSuccess { case (user, tweets) =>
+    println(s"The tweets for $user are: $tweets")
   }
 }
