@@ -4,23 +4,22 @@ import com.twitter.util.Future
 
 object ConcurrentComposition extends App {
 
-  def fetchTrack(): Future[String] =
-    Future { "My Track" }
+  val tasks = List(CommentsClient.getComments, AdvertsClient.getAdverts)
+  val future = Future.collect(tasks)
   
-  def findComments(track: String): Future[Seq[String]] =
-    Future { List("Nice!", "Awesome!", "Terrible!") }
-  
-  def sanitizeComment(comment: String): Future[String] =
-    Future { comment.toLowerCase }
+  future onSuccess { res =>
+    println(res)
+  }
+}
 
-  val f: Future[Seq[String]] =
-    fetchTrack() flatMap { content =>
-      findComments(content).flatMap { comments =>
-        Future.collect(comments.map { sanitizeComment })
-      }
-    }
+object CommentsClient {
+  def getComments: Future[String] = Future {
+    "comment"
+  }
+}
 
-  f onSuccess { res =>
-    println("Result: " + res)
+object AdvertsClient {
+  def getAdverts: Future[String] = Future {
+    "adverts"
   }
 }
