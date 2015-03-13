@@ -1,5 +1,6 @@
 package com.samstarling.futures
 
+import com.samstarling.futures.clients.{CommentsClient, AdvertsClient}
 import com.twitter.util.Future
 
 object ConcurrentComposition extends App {
@@ -12,14 +13,5 @@ object ConcurrentComposition extends App {
   }
 }
 
-object CommentsClient {
-  def getComments: Future[String] = Future {
-    "comment"
-  }
-}
 
-object AdvertsClient {
-  def getAdverts: Future[String] = Future {
-    "adverts"
-  }
-}
+
