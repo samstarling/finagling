@@ -11,10 +11,9 @@ import com.twitter.util.Duration
 
 object TimeoutServer extends App {
 
-  val timeout = Duration.fromSeconds(1)
   val timer = DefaultTimer.twitter
 
-  val timeoutFilter = new TimeoutFilter(timeout, timer)
+  val timeoutFilter = new TimeoutFilter(timer)
   val exceptionFilter = new ExceptionHandlerFilter()
 
   val filters = exceptionFilter andThen timeoutFilter
