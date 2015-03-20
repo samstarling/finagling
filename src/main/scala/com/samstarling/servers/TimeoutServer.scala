@@ -17,8 +17,9 @@ object TimeoutServer extends App {
   val timeoutFilter = new TimeoutFilter(timeout, timer)
   val exceptionFilter = new ExceptionHandlerFilter()
 
+  val filters = exceptionFilter andThen timeoutFilter
   val maybeSlowService = new MaybeSlowService()
-  val service = exceptionFilter andThen timeoutFilter andThen maybeSlowService
+  val service = filters andThen maybeSlowService
 
   val server = ServerBuilder()
     .codec(RichHttp[Request](Http()))
