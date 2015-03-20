@@ -15,9 +15,9 @@ object HttpClient extends App {
 
   val req = new DefaultHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.GET, "/")
 
-  client(req) onSuccess { res =>
-    println("got response", res)
-  } onFailure { exc =>
-    println("failed :-(", exc)
+  client(req) onSuccess { response =>
+    println(response)
+  } onFailure { ex =>
+    println("Fail!", ex)
   }
 }
