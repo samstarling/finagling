@@ -9,7 +9,8 @@ case class Route(method: HttpMethod, path: String)
 
 class Router(services: Map[Route, Service[Request, Response]]) extends Service[Request, Response] {
   override def apply(request: Request): Future[Response] = {
-    val route = Route(request.getMethod(), request.getUri())
+    val path = request.getUri().split("\\?").head
+    val route = Route(request.getMethod(), path)
     services.get(route) match {
       case Some(service) => service.apply(request)
       case None => notFound(request)
