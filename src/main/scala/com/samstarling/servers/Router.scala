@@ -3,11 +3,14 @@ package com.samstarling.servers
 import com.twitter.finagle.Service
 import com.twitter.finagle.http.{Request, Response}
 import com.twitter.util.Future
-import org.jboss.netty.handler.codec.http.{HttpResponseStatus, HttpVersion}
+import org.jboss.netty.handler.codec.http.{HttpMethod, HttpResponseStatus, HttpVersion}
 
-class Router(services: Map[String, Service[Request, Response]]) extends Service[Request, Response] {
+case class Route(method: HttpMethod, path: String)
+
+class Router(services: Map[Route, Service[Request, Response]]) extends Service[Request, Response] {
   override def apply(request: Request): Future[Response] = {
-    services.get(request.getUri()) match {
+    val route = Route(request.getMethod(), request.getUri())
+    services.get(route) match {
       case Some(service) => service.apply(request)
       case None => notFound(request)
     }
