@@ -23,11 +23,3 @@ object MultiServiceServer extends App {
 
 }
 
-class Router(services: Map[String, Service[Request, Response]]) extends Service[Request, Response] {
-  override def apply(request: Request): Future[Response] = {
-    services.get(request.getUri()) match {
-      case Some(service) => service.apply(request)
-      case None => Future.value(Response(HttpVersion.HTTP_1_1, HttpResponseStatus.NOT_FOUND))
-    }
-  }
-}
