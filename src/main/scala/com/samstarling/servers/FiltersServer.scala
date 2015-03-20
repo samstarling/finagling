@@ -2,27 +2,25 @@ package com.samstarling.servers
 
 import java.net.InetSocketAddress
 
-import com.samstarling.filters.{ExceptionHandlerFilter, TimeoutFilter}
+import com.samstarling.filters.{UnsafeParameterFilter, ExceptionHandlerFilter, TimeoutFilter}
 import com.samstarling.services.MaybeSlowService
 import com.twitter.finagle.builder.ServerBuilder
 import com.twitter.finagle.http.{Http, Request, RichHttp}
 import com.twitter.finagle.util.DefaultTimer
-import com.twitter.util.Duration
 
-object TimeoutServer extends App {
+object FiltersServer extends App {
 
-  val timer = DefaultTimer.twitter
-
-  val timeoutFilter = new TimeoutFilter(timer)
+  val timeoutFilter = new TimeoutFilter(DefaultTimer.twitter)
   val exceptionFilter = new ExceptionHandlerFilter()
+  val unsafeParameterFilter = new UnsafeParameterFilter()
 
-  val filters = exceptionFilter andThen timeoutFilter
+  val filters = exceptionFilter andThen timeoutFilter andThen unsafeParameterFilter
   val maybeSlowService = new MaybeSlowService()
   val service = filters andThen maybeSlowService
 
   val server = ServerBuilder()
     .codec(RichHttp[Request](Http()))
-    .bindTo(new InetSocketAddress(10000))
+    .bindTo(new InetSocketAddress(8080))
     .name("HttpServer")
     .build(service)
 

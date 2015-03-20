@@ -4,7 +4,7 @@ organization := "com.samstarling"
 
 version := "0.0.1"
 
-scalaVersion := "2.10.3"
+scalaVersion := "2.11.6"
 
 libraryDependencies ++= Seq(
   "com.twitter" %% "finagle-http" % "6.24.0",
