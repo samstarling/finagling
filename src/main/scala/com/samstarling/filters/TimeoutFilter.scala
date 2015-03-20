@@ -1,8 +1,7 @@
 package com.samstarling.filters
 
-import com.twitter.finagle._
-import com.twitter.finagle.SimpleFilter
-import com.twitter.finagle.http.{Response, Request}
+import com.twitter.finagle.{SimpleFilter, _}
+import com.twitter.finagle.http.{Request, Response}
 import com.twitter.util.{Duration, Future, Timer}
 
 class TimeoutFilter(timer: Timer) extends SimpleFilter[Request, Response] {

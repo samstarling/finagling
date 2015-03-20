@@ -2,7 +2,7 @@ package com.samstarling.servers
 
 import java.net.InetSocketAddress
 
-import com.samstarling.filters.{UnsafeParameterFilter, ExceptionHandlerFilter, TimeoutFilter}
+import com.samstarling.filters.{ExceptionHandlerFilter, TimeoutFilter, UnsafeParameterFilter}
 import com.samstarling.services.MaybeSlowService
 import com.twitter.finagle.builder.ServerBuilder
 import com.twitter.finagle.http.{Http, Request, RichHttp}

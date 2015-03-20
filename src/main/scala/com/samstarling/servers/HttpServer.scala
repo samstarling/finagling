@@ -4,7 +4,7 @@ import java.net.InetSocketAddress
 
 import com.samstarling.services.HelloWorldService
 import com.twitter.finagle.builder.ServerBuilder
-import com.twitter.finagle.http.{Request, RichHttp, Http}
+import com.twitter.finagle.http.{Http, Request, RichHttp}
 
 object HttpServer extends App {
 

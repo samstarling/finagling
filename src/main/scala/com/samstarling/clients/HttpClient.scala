@@ -1,9 +1,9 @@
 package com.samstarling.clients
 
-import org.jboss.netty.handler.codec.http.{DefaultHttpRequest, HttpRequest, HttpResponse, HttpVersion, HttpMethod}
 import com.twitter.finagle.Service
 import com.twitter.finagle.builder.ClientBuilder
 import com.twitter.finagle.http.Http
+import org.jboss.netty.handler.codec.http.{DefaultHttpRequest, HttpMethod, HttpRequest, HttpResponse, HttpVersion}
 
 object HttpClient extends App {
 

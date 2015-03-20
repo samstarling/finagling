@@ -24,4 +24,3 @@ object MultiServiceServer extends App {
     .build(service)
 
 }
-
