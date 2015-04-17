@@ -31,7 +31,7 @@ object BasicsAndComposition extends App {
     } yield avatar
   }
 
-  /* But a for comprehension can give us access to intermediate objects */
+  /* for comprehensions can give us access to intermediate objects */
   def trackWithAvatar(trackUrn: Urn): Future[TrackWithAvatar] = {
     for {
       track <- getTrack(trackUrn)

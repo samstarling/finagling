@@ -1,25 +1,34 @@
 package com.samstarling.futures
 
-import com.samstarling.futures.clients._
-import com.twitter.util.Future
+import com.twitter.util.{Await, Future}
+import com.samstarling.util.time
 
 object ConcurrentComposition extends App {
 
-  val stringTasks = List(CommentsClient.getComments, AdvertsClient.getAdverts)
-  val mixedTasks = List(CommentsClient.getComments, NumbersClient.getRandomNumber)
-
-  // collect takes a set of Futures of the same type
-  Future.collect[String](stringTasks) onSuccess { res =>
-    println(s"Seq[String]: $res")
-  }
-  
-  // this will be Future[Seq[Any]] (which isn't great)
-  Future.collect[Any](mixedTasks) onSuccess { res =>
-    println(s"Seq[Any]: $res")
+  def slowTask(time: Int): Future[String] = {
+    Thread.sleep(time)
+    Future.value("Hello")
   }
 
-  // but join takes a sequence of Futures whose types may be mixed
-  Future.join(mixedTasks) onSuccess { res =>
-    println(s"Unit: $res")
-  }
+  /* collect takes ? seconds */
+  time("Future.collect", {
+    Await.result(Future.collect(List(slowTask(1000), slowTask(2000))))
+  })
+
+  /* join takes ? seconds */
+  time("Future.join", {
+    Await.result(Future.join(List(slowTask(1000), slowTask(2000))))
+  })
+
+  /* ? */
+  time("Future.join flatMap", {
+    Future.join(
+      slowTask(1000),
+      slowTask(2000)
+    ).flatMap { case (comments, adverts) =>
+      println(comments)
+      println(adverts)
+      Future.None
+    }
+  })
 }
