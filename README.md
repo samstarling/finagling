@@ -4,10 +4,7 @@ Experimenting with Finagle, following along with Twitter's [Introduction to Fina
 
 In this repository:
 
-* Futures, and composing them
-* Some basic service stuff
-* A very basic HTTP server
-
-Still to do:
-
-* Filters
+* Examples of using `Futures`, and composing them.
+* Basic HTTP `Filter` and `Service` classes.
+* A simple HTTP `Client`.
+* A `Router` that can route requests to multiple services.
