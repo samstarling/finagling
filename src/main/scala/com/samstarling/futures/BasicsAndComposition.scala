@@ -10,7 +10,7 @@ object BasicsAndComposition extends App {
   case class TrackWithAvatar(track: Track, avatar: Url)
 
   def getTrack(urn: Urn): Future[Track] =
-    Future.value(Track("urn:tracks:123", "urn:users:123", "Foo Bar Baz"))
+    Future.value(Track(urn, "urn:users:123", "Foo Bar Baz"))
 
   def getAvatar(userUrn: Urn): Future[Url] =
     Future.value(s"https://artwork.com/users/$userUrn")
